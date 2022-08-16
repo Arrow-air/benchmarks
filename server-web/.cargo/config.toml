@@ -1,0 +1,3 @@
+[env]
+BYTES_100_PATH = { value = "bytes_100", relative = true }
+BYTES_1000_PATH = { value = "bytes_1000", relative = true }
