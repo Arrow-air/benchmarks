@@ -1,5 +1,8 @@
 [workspace]
 
 members = [
-    "axum-async-graphql",
+    "common",
+    "common-graphql",
+    "axum-graphql",
+    "axum-rest"
 ]

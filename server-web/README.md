@@ -1,17 +1,23 @@
 # Web Framework Benchmark
 
+## Instructions
+
+`server-web` is a Rust workspace, meaning you can run `cargo build/run -p <project>` from this directory.
+- For example, `cargo run -p axum-graphql`.
+
 Based off of [this benchmark](https://github.com/piaoger/webframework-bench).
 
 1. fallback
 2. shutdown signal
 
+
+
 ## Candidates
 
-Library | Version
---- | --- 
-axum, async-graphql | v4.1.0
-hyper, openapi | v0.5.15
-actix-web, openapi | v1.3.37
+Stacks |  Test
+--- | ---
+[axum-openapi](./axum-openapi/README.md) |
+[axum-graphql](./axum-graphql/README.md) |
 
 ## Optimized for Speed
 

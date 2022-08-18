@@ -1,3 +1,14 @@
-[env]
-BYTES_100_PATH = { value = "bytes_100", relative = true }
-BYTES_1000_PATH = { value = "bytes_1000", relative = true }
+# https://doc.rust-lang.org/cargo/reference/config.html
+
+[build]
+rustflags = [
+    "-Wmissing_docs",
+    "-Wmissing_debug_implementations",
+    "-Wmissing_copy_implementations",
+    "-Wtrivial_casts",
+    "-Wtrivial_numeric_casts",
+    "-Wunsafe_code",
+    "-Wunstable_features",
+    "-Wunused_import_braces",
+    "-Wunused_qualifications"
+    ]
