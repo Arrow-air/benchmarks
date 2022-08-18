@@ -1,31 +1,22 @@
 //! Benchmark Server for the axum-graphql stack
 //! axum-graphql stack
 
-use async_graphql_axum::GraphQLSubscription;
+use async_graphql_axum::{GraphQLRequest, GraphQLResponse, GraphQLSubscription};
 use axum::{
-    Extension,
-    // response::{IntoResponse},
-    routing::get,
-    Router,
-    Server,
-    handler::Handler,
-    // response::{IntoResponse},
+    handler::Handler, response, response::IntoResponse, routing::get, Extension, Router, Server,
 };
 use common::{get_bytes_100, get_bytes_1000};
 use common_graphql::*;
-// use common_graphql::{Schema, Query};
 
-// use books::{BooksSchema, MutationRoot, QueryRoot, Storage, SubscriptionRoot};
+async fn graphql_handler(schema: Extension<FlightSchema>, req: GraphQLRequest) -> GraphQLResponse {
+    schema.execute(req.into_inner()).await.into()
+}
 
-// async fn graphql_handler(schema: Extension<BooksSchema>, req: GraphQLRequest) -> GraphQLResponse {
-//     schema.execute(req.into_inner()).await.into()
-// }
-
-// async fn graphql_playground() -> impl IntoResponse {
-//     response::Html(playground_source(
-//         GraphQLPlaygroundConfig::new("/").subscription_endpoint("/ws"),
-//     ))
-// }
+async fn graphql_playground() -> impl IntoResponse {
+    response::Html(playground_source(
+        GraphQLPlaygroundConfig::new("/").subscription_endpoint("/ws"),
+    ))
+}
 
 /// Responds to client with 100 bytes
 ///
@@ -65,10 +56,11 @@ pub async fn respond_bytes_1000() -> &'static str {
 /// let app = Router::new()
 ///         .fallback(not_found.into_service());
 /// ```
-pub async fn not_found(
-    uri: axum::http::Uri
-) -> impl axum::response::IntoResponse {
-    (axum::http::StatusCode::NOT_FOUND, format!("No route {}", uri))
+pub async fn not_found(uri: axum::http::Uri) -> impl IntoResponse {
+    (
+        axum::http::StatusCode::NOT_FOUND,
+        format!("No route {}", uri),
+    )
 }
 
 /// Tokio signal handler that will wait for a user to press CTRL+C.
@@ -95,22 +87,18 @@ async fn shutdown_signal() {
 #[tokio::main]
 async fn main() {
     let schema = Schema::build(Query, Mutation, EmptySubscription)
-        // .data(common::get_flights)
-        // .data(common::get_tlm)
+        // .data(get_flights())
         .finish();
 
     let app = Router::new()
-        .fallback(
-            not_found.into_service()
-        )
-        // .route("/", get(graphql_playground).post(graphql_handler))
+        .fallback(not_found.into_service())
+        .route("/", get(graphql_playground).post(graphql_handler))
         .route("/requests", GraphQLSubscription::new(schema.clone()))
         .route("/100", get(respond_bytes_100))
         .route("/1000", get(respond_bytes_1000))
-        .layer(Extension(schema))
-    ;
+        .layer(Extension(schema));
 
-    println!(":rocket: http://localhost:8000");
+    println!("Playground live at http://localhost:8000/");
 
     Server::bind(&"0.0.0.0:8000".parse().unwrap())
         .serve(app.into_make_service())

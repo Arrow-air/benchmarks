@@ -1,12 +1,7 @@
 //! Benchmark Server for the axum-graphql stack
 //! axum-rest stack
 
-use axum::{
-    routing::get,
-    Router,
-    Server,
-    handler::Handler,
-};
+use axum::{handler::Handler, routing::get, Router, Server};
 use common::{get_bytes_100, get_bytes_1000};
 
 /// Responds to client with 100 bytes
@@ -47,10 +42,11 @@ pub async fn respond_bytes_1000() -> &'static str {
 /// let app = Router::new()
 ///         .fallback(not_found.into_service());
 /// ```
-pub async fn not_found(
-    uri: axum::http::Uri
-) -> impl axum::response::IntoResponse {
-    (axum::http::StatusCode::NOT_FOUND, format!("No route {}", uri))
+pub async fn not_found(uri: axum::http::Uri) -> impl axum::response::IntoResponse {
+    (
+        axum::http::StatusCode::NOT_FOUND,
+        format!("No route {}", uri),
+    )
 }
 
 /// Tokio signal handler that will wait for a user to press CTRL+C.
@@ -77,12 +73,9 @@ async fn shutdown_signal() {
 #[tokio::main]
 async fn main() {
     let app = Router::new()
-        .fallback(
-            not_found.into_service()
-        )
+        .fallback(not_found.into_service())
         .route("/100", get(respond_bytes_100))
-        .route("/1000", get(respond_bytes_1000))
-    ;
+        .route("/1000", get(respond_bytes_1000));
 
     println!("Playground: http://localhost:8000");
 

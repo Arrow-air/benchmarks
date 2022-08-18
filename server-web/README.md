@@ -7,17 +7,34 @@
 
 Based off of [this benchmark](https://github.com/piaoger/webframework-bench).
 
-1. fallback
-2. shutdown signal
-
-
+Benchmarking the following tasks:
+1. Get Flight Information
+    - id: String
+    - departure_port: String
+    - arrival_port: String
+    - utc_departure: NaiveDateTime
+    - utc_arrival: NaiveDateTime
+    - private_charter: bool
+2. Request a flight with the following arguments:
+    - departure_port: String
+    - arrival_port: String
+    - utc_arrive_by: NaiveDateTime
+    - private_charter: bool
+    - Just return `true` on this
+2. 100 Bytes
+3. 1000 Bytes
+4. Fallback (request invalid location)
 
 ## Candidates
 
 Stacks |  Test
 --- | ---
-[axum-openapi](./axum-openapi/README.md) |
+[axum-rest](./axum-rest/README.md) |
 [axum-graphql](./axum-graphql/README.md) |
+[actix-rest](./actix-rest/README.md) |
+[actix-graphql](./actix-graphql/README.md) |
+[hyper-grpc (Petshop)](./hyper-grpc/README.md) |
+[poem-rest (poem-openapi)](./poem-rest/README.md) |
 
 ## Optimized for Speed
 
@@ -36,28 +53,18 @@ cargo build --release
 
 Framework | Memory (Bytes) | Cache (Bytes)
 --- | --- | ---
-axum, async-graphql| |
-hyper, openapi | |
-actix-web, openapi | | 
-poem, openapi | |
+
 
 ### Memory
 
 Framework | Memory (MiB) | Cache (MiB)
 --- | --- | ---
-axum, async-graphql| |
-hyper, openapi | |
-actix-web, openapi | | 
-poem, openapi | |
 
 ### Throughput
 
 Framework | Transfer/sec (MiB) | Requests/sec
 --- | --- | ---
-axum, async-graphql| |
-hyper, openapi | |
-actix-web, openapi | | 
-poem, openapi | |
+
 
 ## Optimized for Size
 
@@ -75,25 +82,14 @@ cargo build --release
 
 Framework | Memory (Bytes) | Cache (Bytes)
 --- | --- | ---
-axum, async-graphql| |
-hyper, openapi | |
-actix-web, openapi | | 
-poem, openapi | |
 
 ### Memory
 
 Framework | Memory (MiB) | Cache (MiB)
 --- | --- | ---
-axum, async-graphql| |
-hyper, openapi | |
-actix-web, openapi | | 
-poem, openapi | |
 
 ### Throughput
 
 Framework | Transfer/sec (MiB) | Requests/sec
 --- | --- | ---
-axum, async-graphql| |
-hyper, openapi | |
-actix-web, openapi | | 
-poem, openapi | |
+
