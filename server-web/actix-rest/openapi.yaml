@@ -1,0 +1,51 @@
+# An example OpenAPI spec
+openapi: 3.0.3
+info:
+  title: Benchmark APIs
+  description: Data schemas and routes for benchmarking purposes
+  version: 0.1.0
+  contact:
+    email: services@arrowair.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+  - url: https://flights.arrowair.com/api/v1
+components:
+  schemas:
+    FlightPlan:
+      type: object
+      properties:
+        flight_id:
+          type: string
+        arrival_utc_min:
+          type: string
+          format: date-time
+        arrival_utc_max:
+          type: string
+          format: date-time
+        departure_port:
+          type: string
+        destination_port:
+          type: string
+        private_charter:
+          type: boolean
+      required:
+        - flight_id
+        - arrival_utc_min
+        - arrival_utc_max
+        - departure_port
+        - destination_port
+paths:
+  /available-flights:
+    get:
+      summary: Returns all available flights
+      responses:
+        "200": # status code
+          description: A JSON array of FlightPlans
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/FlightPlan"
