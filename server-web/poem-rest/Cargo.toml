@@ -1,0 +1,11 @@
+[package]
+name = "poem-rest"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+poem = "1.3.40"
+poem-openapi = { version = "2.0.10", features = ["swagger-ui"] }
+tokio = { version = "1.20.1", features = ["full"] }
