@@ -1,0 +1,8 @@
+[workspace]
+
+members = [
+    "common",
+    "common-graphql",
+    "axum-graphql",
+    "axum-rest"
+]
