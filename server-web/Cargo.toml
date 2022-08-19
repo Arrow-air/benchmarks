@@ -3,6 +3,8 @@
 members = [
     "common",
     "common-graphql",
+    "common-rest",
     "axum-graphql",
-    "axum-rest"
+    "axum-rest",
+    "actix-rest"
 ]
