@@ -36,6 +36,7 @@ components:
         - arrival_utc_max
         - departure_port
         - destination_port
+        - private_charter
 paths:
   /available-flights:
     get:
