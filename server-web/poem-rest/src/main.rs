@@ -1,20 +1,36 @@
 //! Poem Server Example for Benchmark
 //! poem-openapi
 
-use poem::{listener::TcpListener, Route};
-use poem_openapi::{param::Query, payload::PlainText, OpenApi, OpenApiService};
+use poem::{listener::TcpListener, Route, Result};
+use poem_openapi::{payload::{PlainText, Json}, OpenApi, OpenApiService};
+use common::{get_bytes_100, get_bytes_1000};
+use common_rest::{Flight, get_flights};
 
 struct Api;
 
+
+
 #[OpenApi]
 impl Api {
-    #[oai(path = "/hello", method = "get")]
-    async fn index(&self, name: Query<Option<String>>) -> PlainText<String> {
-        match name.0 {
-            Some(name) => PlainText(format!("hello, {}!", name)),
-            None => PlainText("hello!".to_string()),
-        }
+    #[oai(path = "/100", method = "get")]
+    async fn respond_bytes_100(&self) -> PlainText<&'static str> {
+        PlainText(get_bytes_100())
     }
+
+    #[oai(path = "/1000", method = "get")]
+    async fn respond_bytes_1000(&self) -> PlainText<&'static str> {
+        PlainText(get_bytes_1000())
+    }
+
+    #[oai(path = "/request", method = "post")]
+    async fn request_flight(&self) -> Result<Json<bool>> {
+        Ok(Json(true))
+    }
+
+    // #[oai(path = "/fetch", method = "get")]
+    // async fn fetch_flights(&self) -> Result<Json<impl Serialize>> {
+    //     Ok(Json(serialize(get_flights()))
+    // }  
 }
 
 #[tokio::main]
