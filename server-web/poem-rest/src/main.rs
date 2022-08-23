@@ -2,13 +2,33 @@
 //! poem-openapi
 
 use poem::{listener::TcpListener, Route, Result};
-use poem_openapi::{payload::{PlainText, Json}, OpenApi, OpenApiService};
+use poem_openapi::{
+    payload::{PlainText, Json},
+    Object,
+    ApiRequest,
+    OpenApi,
+    OpenApiService};
 use common::{get_bytes_100, get_bytes_1000};
-use common_rest::{Flight, get_flights};
+use common_rest::get_flights;
+use chrono::NaiveDateTime;
+
+/// Represents a flight input.
+#[derive(Debug, Object)]
+pub struct FlightInput {
+    #[oai(validator(max_length = 64))]
+    port_depart: String,
+    #[oai(validator(max_length = 64))]
+    port_arrive: String,
+    utc_arrive_by: NaiveDateTime,
+    private_charter: bool,
+}
+
+#[derive(ApiRequest)]
+enum RequestFlight {
+    CreateByJSON(Json<FlightInput>)
+}
 
 struct Api;
-
-
 
 #[OpenApi]
 impl Api {
@@ -22,15 +42,15 @@ impl Api {
         PlainText(get_bytes_1000())
     }
 
-    #[oai(path = "/request", method = "post")]
-    async fn request_flight(&self) -> Result<Json<bool>> {
+    #[oai(path = "/request-flight", method = "post")]
+    async fn request_flight(&self, _req: RequestFlight) -> Result<Json<bool>> {
         Ok(Json(true))
     }
 
-    // #[oai(path = "/fetch", method = "get")]
-    // async fn fetch_flights(&self) -> Result<Json<impl Serialize>> {
-    //     Ok(Json(serialize(get_flights()))
-    // }  
+    #[oai(path = "/fetch-flights", method = "get")]
+    async fn fetch_flights(&self) -> Result<Json<String>> {
+        Ok(Json(serde_json::to_string(&get_flights()).unwrap()))
+    }  
 }
 
 #[tokio::main]

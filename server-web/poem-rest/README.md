@@ -1,7 +1,4 @@
 # poem + REST
-
-Using `poem-openapi`.
-
 ## Stack
 
 | Library | Version | Description
@@ -21,8 +18,18 @@ Live! Visit http://localhost:3000
 ```
 
 2. Visit the URI in your browser.
+![Example Swagger Interface](./example.png)
 
-
-
-
-## Resources
+3. Use `curl` to send a request
+```bash
+curl -X 'POST' \
+'http://localhost:3000/api/request-flight' \
+-H 'accept: application/json' \
+-H 'Content-Type: application/json' \
+-d '{
+  "port_depart": "string",
+  "port_arrive": "string",
+  "utc_arrive_by": "2022-08-18T23:59:57",
+  "private_charter": true
+}'
+```
