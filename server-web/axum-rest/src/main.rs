@@ -1,8 +1,13 @@
 //! Benchmark Server for the axum-graphql stack
 //! axum-rest stack
 
-use axum::{handler::Handler, routing::get, Router, Server};
+use axum::{
+    handler::Handler,
+    routing::{get, post},
+    Json, Router, Server,
+};
 use common::{get_bytes_100, get_bytes_1000};
+use common_rest::{get_flights, Flight, FlightInput};
 
 /// Responds to client with 100 bytes
 ///
@@ -49,6 +54,19 @@ pub async fn not_found(uri: axum::http::Uri) -> impl axum::response::IntoRespons
     )
 }
 
+/// Responds a GET request with a list of flights.
+pub async fn fetch_flights() -> Json<Vec<Flight<'static>>> {
+    Json(get_flights())
+}
+
+/// Responds a POST request with a boolean value.
+///
+/// Expects a JSON body conforming to the [`FlightInput`] struct.
+pub async fn request_flight(flight: Json<FlightInput>) -> Json<bool> {
+    print!("{:?}", flight);
+    Json(true)
+}
+
 /// Tokio signal handler that will wait for a user to press CTRL+C.
 /// We use this in our hyper `Server` method `with_graceful_shutdown`.
 ///
@@ -74,6 +92,8 @@ async fn shutdown_signal() {
 async fn main() {
     let app = Router::new()
         .fallback(not_found.into_service())
+        .route("/fetch", get(fetch_flights))
+        .route("/request-flight", post(request_flight))
         .route("/100", get(respond_bytes_100))
         .route("/1000", get(respond_bytes_1000));
 
