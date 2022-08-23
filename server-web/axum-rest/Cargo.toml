@@ -10,3 +10,4 @@ axum = "0.5.15"
 tokio = { version = "1.20.1", features = ["full"] }
 tokio-util = "0.7.3"
 common = { path = "../common" }
+common-rest = { path = "../common-rest" }
