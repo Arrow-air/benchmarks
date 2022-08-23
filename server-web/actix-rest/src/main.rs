@@ -3,7 +3,7 @@
 
 use actix_web::{web, App, HttpResponse, HttpServer};
 use common::{get_bytes_100, get_bytes_1000};
-use common_rest::get_flights;
+use common_rest::*;
 
 /// Responds to client with 100 bytes.
 pub async fn respond_bytes_100() -> &'static str {
@@ -21,7 +21,10 @@ pub async fn fetch_flights() -> HttpResponse {
 }
 
 /// Responds a POST request with a boolean value.
-pub async fn request_flights() -> HttpResponse {
+///
+/// Expects a JSON body conforming to the [`FlightInput`] struct.
+pub async fn request_flights(flight: web::Json<FlightInput>) -> HttpResponse {
+    print!("{:?}", flight);
     HttpResponse::Ok().json(true)
 }
 
@@ -29,8 +32,8 @@ pub async fn request_flights() -> HttpResponse {
 async fn main() -> std::io::Result<()> {
     let server = HttpServer::new(|| {
         App::new()
-            .route("/", web::get().to(fetch_flights))
-            .route("/requests", web::post().to(request_flights))
+            .route("/fetch", web::get().to(fetch_flights))
+            .route("/request-flight", web::post().to(request_flights))
             .route("/100", web::get().to(respond_bytes_100))
             .route("/1000", web::get().to(respond_bytes_1000))
             .default_service(web::to(|| HttpResponse::NotFound()))

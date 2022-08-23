@@ -14,6 +14,15 @@ pub struct Flight<'a> {
     private_charter: bool,
 }
 
+/// Represents a flight input.
+#[derive(Deserialize, Serialize, Debug)]
+pub struct FlightInput {
+    port_depart: String,
+    port_arrive: String,
+    utc_arrive_by: NaiveDateTime,
+    private_charter: bool,
+}
+
 /// Returns a list of flights.
 pub fn get_flights() -> Vec<Flight<'static>> {
     let flight = Flight {
