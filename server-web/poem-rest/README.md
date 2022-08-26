@@ -14,7 +14,7 @@ $ cargo run
    Compiling poem-rest v0.1.0
     Finished dev [unoptimized + debuginfo] target(s) in 3.89s
      Running `target/debug/poem-rest`
-Live! Visit http://localhost:3000
+Live! Visit http://localhost:8000
 ```
 
 2. Visit the URI in your browser.
@@ -23,7 +23,7 @@ Live! Visit http://localhost:3000
 3. Use `curl` to send a request
 ```bash
 curl -X 'POST' \
-'http://localhost:3000/api/request-flight' \
+'http://localhost:8000/api/request-flight' \
 -H 'accept: application/json' \
 -H 'Content-Type: application/json' \
 -d '{
