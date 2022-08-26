@@ -1,0 +1,15 @@
+[package]
+name = "poem-rest"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+poem = "1.3.40"
+common = { path = "../common" }
+common-rest = { path = "../common-rest" }
+poem-openapi = { version = "2.0.10", features = ["swagger-ui", "chrono"] }
+tokio = { version = "1.20.1", features = ["macros", "rt-multi-thread"] }
+serde_json = "1.0.83"
+chrono = "0.4.22"

@@ -6,5 +6,6 @@ members = [
     "common-rest",
     "axum-graphql",
     "axum-rest",
-    "actix-rest"
+    "actix-rest",
+    "poem-rest",
 ]
