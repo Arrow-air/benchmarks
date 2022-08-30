@@ -92,4 +92,3 @@ Framework | Memory (MiB) | Cache (MiB)
 
 Framework | Transfer/sec (MiB) | Requests/sec
 --- | --- | ---
-
