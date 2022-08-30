@@ -1,16 +1,14 @@
 //! Poem Server Example for Benchmark
 //! poem-openapi
 
-use poem::{listener::TcpListener, Route, Result};
-use poem_openapi::{
-    payload::{PlainText, Json},
-    Object,
-    ApiRequest,
-    OpenApi,
-    OpenApiService};
+use chrono::NaiveDateTime;
 use common::{get_bytes_100, get_bytes_1000};
 use common_rest::get_flights;
-use chrono::NaiveDateTime;
+use poem::{listener::TcpListener, Result, Route};
+use poem_openapi::{
+    payload::{Json, PlainText},
+    ApiRequest, Object, OpenApi, OpenApiService,
+};
 
 /// Represents a flight input.
 #[derive(Debug, Object)]
@@ -25,7 +23,7 @@ pub struct FlightInput {
 
 #[derive(ApiRequest)]
 enum RequestFlight {
-    CreateByJSON(Json<FlightInput>)
+    CreateByJSON(Json<FlightInput>),
 }
 
 struct Api;
@@ -50,7 +48,7 @@ impl Api {
     #[oai(path = "/fetch-flights", method = "get")]
     async fn fetch_flights(&self) -> Result<Json<String>> {
         Ok(Json(serde_json::to_string(&get_flights()).unwrap()))
-    }  
+    }
 }
 
 #[tokio::main]
