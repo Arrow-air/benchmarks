@@ -14,7 +14,6 @@ jobs:
     name: Code Style
     runs-on: ubuntu-20.04
     steps:
-    - uses: actions/checkout@v2
-    - name: EditorConfig-Action
-      uses: editorconfig-checker/action-editorconfig-checker@main
-    - run: editorconfig-checker
+      - uses: actions/checkout@v2
+      - working-directory: server-web
+        run: make editorconfig-test

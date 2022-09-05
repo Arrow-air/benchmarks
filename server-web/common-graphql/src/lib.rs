@@ -32,15 +32,15 @@ pub struct Flight<'a> {
 #[Object]
 impl Flight<'_> {
     async fn id(&self) -> &str {
-        &self.id
+        self.id
     }
 
     async fn port_depart(&self) -> &str {
-        &self.port_depart
+        self.port_depart
     }
 
     async fn port_arrive(&self) -> &str {
-        &self.port_arrive
+        self.port_arrive
     }
 
     async fn utc_depart(&self) -> NaiveDateTime {
