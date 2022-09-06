@@ -1,3 +1,5 @@
+exclude = ["**/.cargo/registry/**"]
+
 [formatting]
 reorder_keys  = false
 align_entries = true
