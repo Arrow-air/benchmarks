@@ -18,4 +18,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: make editorconfig-test
+      - working-directory: server-web
+        run: make editorconfig-test

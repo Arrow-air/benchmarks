@@ -36,7 +36,7 @@ async fn main() -> std::io::Result<()> {
             .route("/request-flight", web::post().to(request_flight))
             .route("/100", web::get().to(respond_bytes_100))
             .route("/1000", web::get().to(respond_bytes_1000))
-            .default_service(web::to(|| HttpResponse::NotFound()))
+            .default_service(web::to(HttpResponse::NotFound))
     });
 
     println!("Playground: http://localhost:8000");
