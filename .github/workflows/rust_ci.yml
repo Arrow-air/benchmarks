@@ -20,8 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - working-directory: server-web
-        run: make rust-check
+      - run: make rust-check
 
   build_and_test_debug:
     name: Build & Test
@@ -29,10 +28,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build
-        working-directory: server-web
         run: make build
       - name: Test
-        working-directory: server-web
         run: make rust-test
       # Coming soon: grcov + push results to website or service (coveralls, etc.)
 
@@ -41,13 +38,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - working-directory: server-web
-        run: make rust-fmt
+      - run: make rust-fmt
 
   clippy:
     name: Clippy
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - working-directory: server-web
-        run: make rust-clippy
+      - run: make rust-clippy
