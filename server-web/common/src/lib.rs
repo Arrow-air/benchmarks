@@ -1,5 +1,6 @@
 //! Common Function Library
 //! Common functions used by all stacks in the benchmark
+/// cSpell:disable
 
 /// Returns a static string of 1000 bytes
 pub fn get_bytes_100() -> &'static str {
