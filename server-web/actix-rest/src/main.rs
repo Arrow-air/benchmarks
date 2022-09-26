@@ -44,7 +44,6 @@ async fn main() -> std::io::Result<()> {
     println!("Try Me: http://{}:{}", addr, port);
 
     server
-        .disable_signals()
         .bind((addr, port))?
         .run()
         .await

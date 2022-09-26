@@ -67,29 +67,9 @@ pub async fn create_flight(flight: Json<FlightInput>) -> Json<bool> {
     Json(true)
 }
 
-/// Tokio signal handler that will wait for a user to press CTRL+C.
-/// We use this in our hyper `Server` method `with_graceful_shutdown`.
-///
-/// # Arguments
-///
-/// # Examples
-///
-/// ```
-/// Server::bind(&"0.0.0.0:8000".parse().unwrap())
-/// .serve(app.into_make_service())
-/// .with_graceful_shutdown(shutdown_signal())
-/// .await
-/// .unwrap();
-/// ```
-async fn shutdown_signal() {
-    tokio::signal::ctrl_c()
-        .await
-        .expect("expect tokio signal ctrl-c");
-}
-
 #[tokio::main]
 async fn main() {
-    let addr = "http://localhost:8000";
+    let addr = "http://127.0.0.1:8000";
     let app = Router::new()
         .fallback(not_found.into_service())
         .route("/fetch-flights", get(fetch_flights))
@@ -101,7 +81,6 @@ async fn main() {
 
     Server::bind(&addr.parse().unwrap())
         .serve(app.into_make_service())
-        .with_graceful_shutdown(shutdown_signal())
         .await
         .unwrap();
 }

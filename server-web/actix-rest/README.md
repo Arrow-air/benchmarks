@@ -45,7 +45,7 @@ It should print an array of flights (only have 1 in our example):
 $ curl --header "Content-Type: application/json" \
   --request POST \
   --data '{"port_depart":"EARTH-NAMERICA-10","port_arrive":"EARTH-NAMERICA-11","utc_arrive_by":"2022-08-18T23:59:57", "private_charter":false}' \
-  http://localhost:8000/request-flight
+  http://localhost:8000/create-flight
 ```
 
 It should print true:

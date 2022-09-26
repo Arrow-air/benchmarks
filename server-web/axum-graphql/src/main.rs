@@ -26,29 +26,9 @@ pub async fn not_found(uri: axum::http::Uri) -> impl IntoResponse {
     )
 }
 
-/// Tokio signal handler that will wait for a user to press CTRL+C.
-/// We use this in our hyper `Server` method `with_graceful_shutdown`.
-///
-/// # Arguments
-///
-/// # Examples
-///
-/// ```
-/// Server::bind(&"0.0.0.0:8000".parse().unwrap())
-/// .serve(app.into_make_service())
-/// .with_graceful_shutdown(shutdown_signal())
-/// .await
-/// .unwrap();
-/// ```
-async fn shutdown_signal() {
-    tokio::signal::ctrl_c()
-        .await
-        .expect("expect tokio signal ctrl-c");
-}
-
 #[tokio::main]
 async fn main() {
-    let addr = "http://localhost:8000";
+    let addr = "127.0.0.1:8000";
     let schema = Schema::build(Query, Mutation, EmptySubscription)
         .finish();
 
@@ -60,7 +40,6 @@ async fn main() {
 
     Server::bind(&addr.parse().unwrap())
         .serve(app.into_make_service())
-        .with_graceful_shutdown(shutdown_signal())
         .await
         .unwrap();
 }

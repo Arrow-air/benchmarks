@@ -53,7 +53,7 @@ impl Api {
 
 #[tokio::main]
 async fn main() -> Result<(), std::io::Error> {
-    let addr = "http://localhost:8000/";
+    let addr = "http://127.0.0.1:8000/";
     let api_service =
         OpenApiService::new(Api, "Hello World", "1.0").server(addr);
     let app = Route::new().nest("/", api_service);
