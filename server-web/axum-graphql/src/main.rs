@@ -1,22 +1,15 @@
 //! Benchmark Server for the axum-graphql stack
 //! axum-graphql stack
 
-use async_graphql_axum::{GraphQLRequest, GraphQLResponse, GraphQLSubscription};
+use async_graphql_axum::GraphQLSubscription;
 use axum::{
-    handler::Handler, response, response::IntoResponse, routing::get, Extension, Router, Server,
+    handler::Handler,
+    response::IntoResponse,
+    routing::get,
+    Extension, Router, Server,
 };
 use common::{get_bytes_100, get_bytes_1000};
 use common_graphql::*;
-
-async fn graphql_handler(schema: Extension<FlightSchema>, req: GraphQLRequest) -> GraphQLResponse {
-    schema.execute(req.into_inner()).await.into()
-}
-
-async fn graphql_playground() -> impl IntoResponse {
-    response::Html(playground_source(
-        GraphQLPlaygroundConfig::new("/").subscription_endpoint("/ws"),
-    ))
-}
 
 /// Responds to client with 100 bytes
 ///
@@ -81,26 +74,25 @@ async fn shutdown_signal() {
     tokio::signal::ctrl_c()
         .await
         .expect("expect tokio signal ctrl-c");
-    println!("signal shutdown! oh yeahhhhh");
 }
 
 #[tokio::main]
 async fn main() {
+    let addr = "http://localhost:8000";
     let schema = Schema::build(Query, Mutation, EmptySubscription)
-        // .data(get_flights())
+        // .data(fetch_flights())
         .finish();
 
     let app = Router::new()
         .fallback(not_found.into_service())
-        .route("/", get(graphql_playground).post(graphql_handler))
         .route("/requests", GraphQLSubscription::new(schema.clone()))
         .route("/100", get(respond_bytes_100))
         .route("/1000", get(respond_bytes_1000))
         .layer(Extension(schema));
 
-    println!("Playground live at http://localhost:8000/");
+    println!("Try Me: {}", addr);
 
-    Server::bind(&"0.0.0.0:8000".parse().unwrap())
+    Server::bind(&addr.parse().unwrap())
         .serve(app.into_make_service())
         .with_graceful_shutdown(shutdown_signal())
         .await

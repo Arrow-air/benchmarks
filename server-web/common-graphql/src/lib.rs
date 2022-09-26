@@ -1,7 +1,6 @@
 //! Common Functions for GraphQL Benchmarks
 //! GraphQL Schema for Benchmarks
 pub use async_graphql::{
-    http::{playground_source, GraphQLPlaygroundConfig},
     types::EmptySubscription,
     Context, InputObject, Object, Schema, SimpleObject, Subscription,
 };

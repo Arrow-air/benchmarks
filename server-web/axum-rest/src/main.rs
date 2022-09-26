@@ -85,21 +85,21 @@ async fn shutdown_signal() {
     tokio::signal::ctrl_c()
         .await
         .expect("expect tokio signal ctrl-c");
-    println!("signal shutdown! oh yeahhhhh");
 }
 
 #[tokio::main]
 async fn main() {
+    let addr = "http://localhost:8000";
     let app = Router::new()
         .fallback(not_found.into_service())
-        .route("/fetch", get(fetch_flights))
+        .route("/fetch-flights", get(fetch_flights))
         .route("/request-flight", post(request_flight))
         .route("/100", get(respond_bytes_100))
         .route("/1000", get(respond_bytes_1000));
 
-    println!("Playground: http://localhost:8000");
+    println!("Try Me: {}", addr);
 
-    Server::bind(&"0.0.0.0:8000".parse().unwrap())
+    Server::bind(&addr.parse().unwrap())
         .serve(app.into_make_service())
         .with_graceful_shutdown(shutdown_signal())
         .await

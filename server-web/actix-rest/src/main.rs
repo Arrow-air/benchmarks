@@ -30,20 +30,22 @@ pub async fn request_flight(flight: web::Json<FlightInput>) -> HttpResponse {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
+    let addr = "localhost";
+    let port = 8000;
     let server = HttpServer::new(|| {
         App::new()
-            .route("/fetch", web::get().to(fetch_flights))
+            .route("/fetch-flights", web::get().to(fetch_flights))
             .route("/request-flight", web::post().to(request_flight))
             .route("/100", web::get().to(respond_bytes_100))
             .route("/1000", web::get().to(respond_bytes_1000))
             .default_service(web::to(HttpResponse::NotFound))
     });
 
-    println!("Playground: http://localhost:8000");
+    println!("Try Me: http://{}:{}", addr, port);
 
     server
         .disable_signals()
-        .bind(("0.0.0.0", 8000))?
+        .bind((addr, port))?
         .run()
         .await
 }
