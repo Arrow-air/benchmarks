@@ -40,8 +40,8 @@ impl Api {
         PlainText(get_bytes_1000())
     }
 
-    #[oai(path = "/request-flight", method = "post")]
-    async fn request_flight(&self, _req: RequestFlight) -> Result<Json<bool>> {
+    #[oai(path = "/create-flight", method = "post")]
+    async fn create_flight(&self, _req: RequestFlight) -> Result<Json<bool>> {
         Ok(Json(true))
     }
 

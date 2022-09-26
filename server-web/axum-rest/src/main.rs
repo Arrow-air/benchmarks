@@ -62,7 +62,7 @@ pub async fn fetch_flights() -> Json<Vec<Flight<'static>>> {
 /// Responds a POST request with a boolean value.
 ///
 /// Expects a JSON body conforming to the [`FlightInput`] struct.
-pub async fn request_flight(flight: Json<FlightInput>) -> Json<bool> {
+pub async fn create_flight(flight: Json<FlightInput>) -> Json<bool> {
     print!("{:?}", flight);
     Json(true)
 }
@@ -93,7 +93,7 @@ async fn main() {
     let app = Router::new()
         .fallback(not_found.into_service())
         .route("/fetch-flights", get(fetch_flights))
-        .route("/request-flight", post(request_flight))
+        .route("/create-flight", post(create_flight))
         .route("/100", get(respond_bytes_100))
         .route("/1000", get(respond_bytes_1000));
 

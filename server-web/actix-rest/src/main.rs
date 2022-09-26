@@ -23,7 +23,7 @@ pub async fn fetch_flights() -> HttpResponse {
 /// Responds a POST request with a boolean value.
 ///
 /// Expects a JSON body conforming to the [`FlightInput`] struct.
-pub async fn request_flight(flight: web::Json<FlightInput>) -> HttpResponse {
+pub async fn create_flight(flight: web::Json<FlightInput>) -> HttpResponse {
     print!("{:?}", flight);
     HttpResponse::Ok().json(true)
 }
@@ -35,7 +35,7 @@ async fn main() -> std::io::Result<()> {
     let server = HttpServer::new(|| {
         App::new()
             .route("/fetch-flights", web::get().to(fetch_flights))
-            .route("/request-flight", web::post().to(request_flight))
+            .route("/create-flight", web::post().to(create_flight))
             .route("/100", web::get().to(respond_bytes_100))
             .route("/1000", web::get().to(respond_bytes_1000))
             .default_service(web::to(HttpResponse::NotFound))
