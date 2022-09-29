@@ -1,8 +1,7 @@
 //! Common Functions for GraphQL Benchmarks
 //! GraphQL Schema for Benchmarks
 pub use async_graphql::{
-    types::EmptySubscription,
-    Context, InputObject, Object, Schema, SimpleObject, Subscription,
+    types::EmptySubscription, Context, InputObject, Object, Schema, SimpleObject, Subscription,
 };
 use chrono::{NaiveDate, NaiveDateTime};
 use common::{get_bytes_100, get_bytes_1000};

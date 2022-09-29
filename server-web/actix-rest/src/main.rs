@@ -30,7 +30,7 @@ pub async fn create_flight(flight: web::Json<FlightInput>) -> HttpResponse {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    let addr = "localhost";
+    let addr = "0.0.0.0";
     let port = 8000;
     let server = HttpServer::new(|| {
         App::new()
@@ -43,8 +43,5 @@ async fn main() -> std::io::Result<()> {
 
     println!("Try Me: http://{}:{}", addr, port);
 
-    server
-        .bind((addr, port))?
-        .run()
-        .await
+    server.bind((addr, port))?.run().await
 }

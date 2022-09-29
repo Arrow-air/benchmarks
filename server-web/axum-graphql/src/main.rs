@@ -2,11 +2,7 @@
 //! axum-graphql stack
 
 use async_graphql_axum::GraphQLSubscription;
-use axum::{
-    handler::Handler,
-    response::IntoResponse,
-    Router, Server,
-};
+use axum::{handler::Handler, response::IntoResponse, Router, Server};
 use common_graphql::*;
 
 /// Responds a NOT_FOUND status and error string
@@ -29,8 +25,7 @@ pub async fn not_found(uri: axum::http::Uri) -> impl IntoResponse {
 #[tokio::main]
 async fn main() {
     let addr = "127.0.0.1:8000";
-    let schema = Schema::build(Query, Mutation, EmptySubscription)
-        .finish();
+    let schema = Schema::build(Query, Mutation, EmptySubscription).finish();
 
     let app = Router::new()
         .fallback(not_found.into_service())

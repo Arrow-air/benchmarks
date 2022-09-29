@@ -17,10 +17,14 @@ pub struct Flight<'a> {
 /// Represents a flight input.
 #[derive(Deserialize, Serialize, Debug)]
 pub struct FlightInput {
-    port_depart: String,
-    port_arrive: String,
-    utc_arrive_by: NaiveDateTime,
-    private_charter: bool,
+    /// Departure Vertiport
+    pub port_depart: String,
+    /// Arrival Vertiport
+    pub port_arrive: String,
+    /// Time to arrive by (UTC)
+    pub utc_arrive_by: NaiveDateTime,
+    /// Disallow other parties on the flight
+    pub private_charter: bool,
 }
 
 /// Returns a list of flights.

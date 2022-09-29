@@ -8,3 +8,4 @@ include .makerc
 include ../../.make/targets-all.mk
 include ../../.make/targets-rust.mk
 include ../../.make/targets-docker.mk
+include ../targets-server-web.mk

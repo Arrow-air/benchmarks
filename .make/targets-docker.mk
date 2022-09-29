@@ -12,7 +12,12 @@ docker-build:
 
 docker-run: docker-stop
 	# Run docker container as a daemon and map a port
-	@docker run --rm -d -p $(HOST_PORT):$(DOCKER_PORT) --name=$(DOCKER_NAME)-run $(IMAGE_NAME):latest
+	@docker network create example-net || true
+	@docker run --rm -d \
+		--network=example-net \
+		-p "$(HOST_PORT):$(DOCKER_PORT)" \
+		--name=$(DOCKER_NAME)-run \
+		$(IMAGE_NAME):latest
 	@echo "$(YELLOW)Docker running and listening to http://localhost:$(HOST_PORT)$(NC)"
 
 docker-stop:

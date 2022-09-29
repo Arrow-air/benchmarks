@@ -53,13 +53,11 @@ impl Api {
 
 #[tokio::main]
 async fn main() -> Result<(), std::io::Error> {
-    let addr = "http://127.0.0.1:8000/";
+    let addr = "0.0.0.0:8000";
     let api_service =
-        OpenApiService::new(Api, "Hello World", "1.0").server(addr);
+        OpenApiService::new(Api, "poem-rest", "1.0").server(format!("{}{}", "http://", addr));
     let app = Route::new().nest("/", api_service);
 
-    println!("Try Me: {}", addr);
-    poem::Server::new(TcpListener::bind(addr))
-        .run(app)
-        .await
+    println!("Try Me: http://{}", addr);
+    poem::Server::new(TcpListener::bind(addr)).run(app).await
 }

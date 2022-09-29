@@ -22,7 +22,9 @@ SGR0   := $(shell echo -e `tput sgr0`)
 # Accepts $1 = command to run, $2 = additional flags (optional)
 docker_run = docker run \
 	--name=$(DOCKER_NAME)-$@ \
+	--hostname=$(DOCKER_NAME)-$@ \
 	--rm \
+	--network=example-net \
 	--user `id -u`:`id -g` \
 	--workdir=/usr/src/app/$(PACKAGE_NAME) \
 	-e CARGO_INCREMENTAL=$(CARGO_INCREMENTAL) \

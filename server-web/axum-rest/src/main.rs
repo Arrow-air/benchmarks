@@ -8,6 +8,7 @@ use axum::{
 };
 use common::{get_bytes_100, get_bytes_1000};
 use common_rest::{get_flights, Flight, FlightInput};
+use std::net::SocketAddr;
 
 /// Responds to client with 100 bytes
 ///
@@ -69,7 +70,6 @@ pub async fn create_flight(flight: Json<FlightInput>) -> Json<bool> {
 
 #[tokio::main]
 async fn main() {
-    let addr = "http://127.0.0.1:8000";
     let app = Router::new()
         .fallback(not_found.into_service())
         .route("/fetch-flights", get(fetch_flights))
@@ -77,9 +77,10 @@ async fn main() {
         .route("/100", get(respond_bytes_100))
         .route("/1000", get(respond_bytes_1000));
 
-    println!("Try Me: {}", addr);
+    let addr = SocketAddr::from(([0, 0, 0, 0], 8000));
+    println!("Try Me: http://0.0.0.0:8000");
 
-    Server::bind(&addr.parse().unwrap())
+    Server::bind(&addr)
         .serve(app.into_make_service())
         .await
         .unwrap();
