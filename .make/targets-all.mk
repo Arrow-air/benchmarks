@@ -55,6 +55,7 @@ help-all:
 	@echo "                      to add remaining words to the project's cspell ignore list"
 
 docker-pull:
+	@docker network create example-net || true
 	@docker pull -q $(BUILD_IMAGE_NAME):$(BUILD_IMAGE_TAG)
 
 # TOML / taplo targets
@@ -95,7 +96,7 @@ md-test:
 		--user `id -u`:`id -g` \
 		-w "/usr/src/app" \
 		-v "$(PWD):/usr/src/app" \
-        ghcr.io/tcort/markdown-link-check:stable \
+		ghcr.io/tcort/markdown-link-check:stable \
 		$(MD_FILES)
 
 

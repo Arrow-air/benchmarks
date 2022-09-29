@@ -2,9 +2,8 @@
 
 use axum::http::StatusCode;
 use chrono::NaiveDate;
-use common_rest;
+use common_rest::FlightInput;
 use hyper::{Body, Client, Method, Request};
-use serde_json;
 use std::time::Duration;
 
 /// Lightly exercise the following endpoints:
@@ -57,7 +56,7 @@ pub async fn test_rest_endpoints(url: &str) -> Result<(), Box<dyn std::error::Er
     ok &= resp.status() == StatusCode::OK;
 
     // POST /create-flight
-    let data = common_rest::FlightInput {
+    let data = FlightInput {
         port_depart: "vertiport-1".to_string(),
         port_arrive: "vertiport-2".to_string(),
         utc_arrive_by: NaiveDate::from_ymd(2016, 7, 8).and_hms(9, 10, 11),
