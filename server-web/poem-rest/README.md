@@ -3,8 +3,8 @@
 
 | Library | Version | Description
 | --- | --- | --- |
-| poem | [1.3.40](https://crates.io/crates/poem) | 
-| poem-openapi | [2.0.10](https://crates.io/crates/poem-openapi) |
+| poem | 1.3.40 | 
+| poem-openapi | 2.0.10 |
 
 ## Try It
 

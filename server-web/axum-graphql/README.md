@@ -5,7 +5,7 @@
 | Library | Version | Description
 | --- | --- | --- |
 | axum | [0.5.15](https://docs.rs/axum/0.5.15/axum/) | `tokio` for async runtime and utilities<br>`hyper` for http server<br>`tower` for  middleware and utilities<br>Includes `tonic` (gRPC)
-| async-graphql | [4.0.9](https://crates.io/crates/async-graphql) | |
+| async-graphql | 4.0.9 | |
 
 ## Try It 
 ```bash

@@ -56,6 +56,4 @@ Stacks |  Test
 [axum-rest](./axum-rest/README.md) |
 [axum-graphql](./axum-graphql/README.md) |
 [actix-rest](./actix-rest/README.md) |
-[actix-graphql](./actix-graphql/README.md) |
-[hyper-grpc (Petshop)](./hyper-grpc/README.md) |
 [poem-rest (poem-openapi)](./poem-rest/README.md) |

@@ -9,6 +9,8 @@ HOST_PORT        := 8080
 
 SOURCE_PATH      ?= $(PWD)
 
+MD_FILES         := $(shell find . -iname "*.md" -type f ! -path "./server-web/.cargo/registry/**")
+
 # Style templates for console output.
 GREEN  := $(shell echo -e `tput setaf 2`)
 YELLOW := $(shell echo -e `tput setaf 3`)
@@ -84,5 +86,17 @@ cspell-test: docker-pull
 cspell-add-words: docker-pull
 	@echo "$(YELLOW)Adding words to the project's cspell word list...$(NC)"
 	@$(call docker_run,sh -c 'cspell --words-only --unique "**/**" -c .cspell.config.yaml 2> /dev/null | sort -f >> .cspell.project-words.txt')
+
+md-test:
+	@echo "$(YELLOW)Checking if all document links are valid...$(NC)"
+	@docker run \
+		--name=$(DOCKER_NAME)-$@ \
+		--rm \
+		--user `id -u`:`id -g` \
+		-w "/usr/src/app" \
+		-v "$(PWD):/usr/src/app" \
+        ghcr.io/tcort/markdown-link-check:stable \
+		$(MD_FILES)
+
 
 export
