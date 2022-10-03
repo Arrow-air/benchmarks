@@ -2,9 +2,13 @@ SHELL := /bin/bash
 
 SOURCE_PATH = "$(PWD)/../"
 
-help: help-all help-rust help-docker
+help: .help-base .help-rust .help-docker
 
 include .makerc
-include ../../.make/targets-all.mk
-include ../../.make/targets-rust.mk
-include ../../.make/targets-docker.mk
+
+export
+
+include ../../.make/base.mk
+include ../../.make/rust.mk
+include ../../.make/docker.mk
+include ../targets-server-web.mk
