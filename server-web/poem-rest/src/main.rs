@@ -40,8 +40,8 @@ impl Api {
         PlainText(get_bytes_1000())
     }
 
-    #[oai(path = "/request-flight", method = "post")]
-    async fn request_flight(&self, _req: RequestFlight) -> Result<Json<bool>> {
+    #[oai(path = "/create-flight", method = "post")]
+    async fn create_flight(&self, _req: RequestFlight) -> Result<Json<bool>> {
         Ok(Json(true))
     }
 
@@ -53,13 +53,11 @@ impl Api {
 
 #[tokio::main]
 async fn main() -> Result<(), std::io::Error> {
+    let addr = "0.0.0.0:8000";
     let api_service =
-        OpenApiService::new(Api, "Hello World", "1.0").server("http://localhost:8000/api");
-    let ui = api_service.swagger_ui();
-    let app = Route::new().nest("/api", api_service).nest("/", ui);
+        OpenApiService::new(Api, "poem-rest", "1.0").server(format!("{}{}", "http://", addr));
+    let app = Route::new().nest("/", api_service);
 
-    println!("Live! Visit http://localhost:8000");
-    poem::Server::new(TcpListener::bind("127.0.0.1:8000"))
-        .run(app)
-        .await
+    println!("Try Me: http://{}", addr);
+    poem::Server::new(TcpListener::bind(addr)).run(app).await
 }

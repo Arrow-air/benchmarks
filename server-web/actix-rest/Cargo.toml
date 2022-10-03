@@ -8,4 +8,11 @@ version = "0.1.0"
 [dependencies]
 actix-web   = "4.1.0"
 common      = { path = "../common" }
-common-rest = { path = "../common-rest" }
+common_rest = { path = "../common-rest" }
+
+[dev-dependencies]
+common-example = { path = "../common-example" }
+tokio          = { version = "1", features = ["full"] }
+
+[[example]]
+name = "endpoints"

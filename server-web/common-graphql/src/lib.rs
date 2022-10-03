@@ -1,11 +1,10 @@
 //! Common Functions for GraphQL Benchmarks
 //! GraphQL Schema for Benchmarks
 pub use async_graphql::{
-    http::{playground_source, GraphQLPlaygroundConfig},
-    types::EmptySubscription,
-    Context, InputObject, Object, Schema, SimpleObject, Subscription,
+    types::EmptySubscription, Context, InputObject, Object, Schema, SimpleObject, Subscription,
 };
 use chrono::{NaiveDate, NaiveDateTime};
+use common::{get_bytes_100, get_bytes_1000};
 
 /// GraphQL Schema for Flight Plans
 pub type FlightSchema = Schema<Query, Mutation, EmptySubscription>;
@@ -71,6 +70,18 @@ impl Query {
             utc_arrive: NaiveDate::from_ymd(2022, 8, 19).and_hms(0, 22, 10),
             private_charter: false,
         }]
+    }
+
+    /// Responds to client with 100 bytes
+    ///
+    async fn respond_bytes_100(&self) -> &'static str {
+        get_bytes_100()
+    }
+
+    /// Responds to client with 1000 bytes
+    ///
+    async fn respond_bytes_1000(&self) -> &'static str {
+        get_bytes_1000()
     }
 }
 

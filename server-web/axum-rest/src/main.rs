@@ -8,6 +8,7 @@ use axum::{
 };
 use common::{get_bytes_100, get_bytes_1000};
 use common_rest::{get_flights, Flight, FlightInput};
+use std::net::SocketAddr;
 
 /// Responds to client with 100 bytes
 ///
@@ -62,46 +63,25 @@ pub async fn fetch_flights() -> Json<Vec<Flight<'static>>> {
 /// Responds a POST request with a boolean value.
 ///
 /// Expects a JSON body conforming to the [`FlightInput`] struct.
-pub async fn request_flight(flight: Json<FlightInput>) -> Json<bool> {
+pub async fn create_flight(flight: Json<FlightInput>) -> Json<bool> {
     print!("{:?}", flight);
     Json(true)
-}
-
-/// Tokio signal handler that will wait for a user to press CTRL+C.
-/// We use this in our hyper `Server` method `with_graceful_shutdown`.
-///
-/// # Arguments
-///
-/// # Examples
-///
-/// ```
-/// Server::bind(&"0.0.0.0:8000".parse().unwrap())
-/// .serve(app.into_make_service())
-/// .with_graceful_shutdown(shutdown_signal())
-/// .await
-/// .unwrap();
-/// ```
-async fn shutdown_signal() {
-    tokio::signal::ctrl_c()
-        .await
-        .expect("expect tokio signal ctrl-c");
-    println!("signal shutdown! oh yeahhhhh");
 }
 
 #[tokio::main]
 async fn main() {
     let app = Router::new()
         .fallback(not_found.into_service())
-        .route("/fetch", get(fetch_flights))
-        .route("/request-flight", post(request_flight))
+        .route("/fetch-flights", get(fetch_flights))
+        .route("/create-flight", post(create_flight))
         .route("/100", get(respond_bytes_100))
         .route("/1000", get(respond_bytes_1000));
 
-    println!("Playground: http://localhost:8000");
+    let addr = SocketAddr::from(([0, 0, 0, 0], 8000));
+    println!("Try Me: http://0.0.0.0:8000");
 
-    Server::bind(&"0.0.0.0:8000".parse().unwrap())
+    Server::bind(&addr)
         .serve(app.into_make_service())
-        .with_graceful_shutdown(shutdown_signal())
         .await
         .unwrap();
 }
