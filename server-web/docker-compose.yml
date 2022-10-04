@@ -7,16 +7,17 @@ services:
     ports:
       - ${HOST_PORT}:${DOCKER_PORT}
     healthcheck:
-      test: |
-        bash -c 'exec 3<> /dev/tcp/127.0.0.1/8080 && echo -e "GET /available-flights HTTP/1.1\r\nAccept: application/json\r\n\r\n" >&3 && head -3 <&3 | grep "200 OK"'
-      interval: 30s
-      timeout: 10s
-      retries: 6
-      start_period: 10s
+      test: ["CMD", "wget", "--spider", "--no-verbose", "--tries=1", "http://localhost:${DOCKER_PORT}/fetch-flights"]
+      interval: 2s
+      timeout: 1s
+      retries: 3
 
   example:
     links:
       - web-server
+    depends_on:
+      web-server:
+        condition: service_healthy
     container_name: ${PACKAGE_NAME}-example
     image: ${BUILD_IMAGE_NAME}:${BUILD_IMAGE_TAG}
     volumes:

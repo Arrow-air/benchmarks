@@ -13,4 +13,4 @@ example: check-cargo-registry docker-pull
 		--rm \
 		-e CARGO_INCREMENTAL=1 \
 		-e RUSTC_BOOTSTRAP=0 \
-		example
+		example && docker compose stop

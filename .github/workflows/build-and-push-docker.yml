@@ -37,7 +37,7 @@ jobs:
             ./${{ matrix.path }}/.cargo/registry/cache/
             ./${{ matrix.path }}/.cargo/git/db/
             ./${{ matrix.path }}/target/
-          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          key: ${{ runner.os }}-cargo-${{ hashFiles('server-web/**') }}
           restore-keys: ${{ runner.os }}-cargo-
 
       - name: Dotenv Action
