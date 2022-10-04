@@ -1,0 +1,32 @@
+---
+version: '3.6'
+services:
+  web-server:
+    container_name: ${PACKAGE_NAME}-run
+    image: ${IMAGE_NAME}:latest
+    ports:
+      - ${HOST_PORT}:${DOCKER_PORT}
+    healthcheck:
+      test: |
+        bash -c 'exec 3<> /dev/tcp/127.0.0.1/8080 && echo -e "GET /available-flights HTTP/1.1\r\nAccept: application/json\r\n\r\n" >&3 && head -3 <&3 | grep "200 OK"'
+      interval: 30s
+      timeout: 10s
+      retries: 6
+      start_period: 10s
+
+  example:
+    links:
+      - web-server
+    container_name: ${PACKAGE_NAME}-example
+    image: ${BUILD_IMAGE_NAME}:${BUILD_IMAGE_TAG}
+    volumes:
+      - type: bind
+        source: "${SOURCE_PATH}/"
+        target: "/usr/src/app"
+      - type: bind
+        source: "${SOURCE_PATH}/.cargo/registry"
+        target: "/usr/local/cargo/registry"
+    environment:
+      - HOSTNAME
+      - DOCKER_PORT
+    command: cargo run --manifest-path "${CARGO_MANIFEST_PATH}" --example endpoints
