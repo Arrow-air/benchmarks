@@ -20,6 +20,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Set up cargo cache
+        uses: actions/cache@v3
+        continue-on-error: false
+        with:
+          path: |
+            ./server-web/.cargo/bin/
+            ./server-web/.cargo/registry/index/
+            ./server-web/.cargo/registry/cache/
+            ./server-web/.cargo/git/db/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('server-web/**') }}
+          restore-keys: ${{ runner.os }}-cargo-
       - run: make rust-check
 
   build_and_test_debug:
@@ -27,6 +38,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Set up cargo cache
+        uses: actions/cache@v3
+        continue-on-error: false
+        with:
+          path: |
+            ./server-web/.cargo/bin/
+            ./server-web/.cargo/registry/index/
+            ./server-web/.cargo/registry/cache/
+            ./server-web/.cargo/git/db/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('server-web/**') }}
+          restore-keys: ${{ runner.os }}-cargo-
       - name: Build
         run: make build
       - name: Test
@@ -38,6 +60,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Set up cargo cache
+        uses: actions/cache@v3
+        continue-on-error: false
+        with:
+          path: |
+            ./server-web/.cargo/bin/
+            ./server-web/.cargo/registry/index/
+            ./server-web/.cargo/registry/cache/
+            ./server-web/.cargo/git/db/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('server-web/**') }}
+          restore-keys: ${{ runner.os }}-cargo-
       - run: make rust-fmt
 
   clippy:
@@ -45,4 +78,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Set up cargo cache
+        uses: actions/cache@v3
+        continue-on-error: false
+        with:
+          path: |
+            ./server-web/.cargo/bin/
+            ./server-web/.cargo/registry/index/
+            ./server-web/.cargo/registry/cache/
+            ./server-web/.cargo/git/db/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('server-web/**') }}
+          restore-keys: ${{ runner.os }}-cargo-
       - run: make rust-clippy

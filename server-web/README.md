@@ -13,16 +13,17 @@ make docker-run # server starts immediately
 docker ps # confirm the container is running
 ```
 
-Run the integration test (`endpoints.rs`) for a sanity check:
-```bash
-make example
-```
-
 To kill the container:
 ```bash
 # Kill container
 make docker-stop
 ```
+
+Run the integration test (`endpoints.rs`) for a sanity check:
+```bash
+make example
+```
+This will automatically start the server, run cargo example, and stop the server using `docker compose`.
 
 ## Required Endpoints
 

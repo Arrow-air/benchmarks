@@ -4,15 +4,42 @@ use axum::http::StatusCode;
 use chrono::NaiveDate;
 use common_rest::FlightInput;
 use hyper::{Body, Client, Method, Request};
+use std::env;
 use std::time::Duration;
+
+/// Provide endpoint url to use
+pub fn get_endpoint() -> String {
+    // Set default hostname and port
+    let mut hostname = "localhost".to_string();
+    let mut port = "8080".to_string();
+
+    // Allow override of hostname and port through env vars
+    if env::var("HOSTNAME").is_ok() {
+        if let Ok(v) = env::var("HOSTNAME") {
+            hostname = v
+        }
+    }
+    if env::var("DOCKER_PORT").is_ok() {
+        if let Ok(v) = env::var("DOCKER_PORT") {
+            port = v
+        }
+    }
+
+    format!("http://{}:{}", hostname, port)
+}
 
 /// Lightly exercise the following endpoints:
 /// - /100
 /// - /1000
 /// - /fetch-flights
 /// - /create-flight
-pub async fn test_rest_endpoints(url: &str) -> Result<(), Box<dyn std::error::Error>> {
-    println!("NOTE: Ensure the server is running, or this example will fail.");
+pub async fn test_rest_endpoints() -> Result<(), Box<dyn std::error::Error>> {
+    let url: &str = &get_endpoint();
+
+    println!(
+        "NOTE: Ensure the server is running on {} or this example will fail.",
+        url
+    );
 
     let mut ok = true;
     let client = Client::builder()

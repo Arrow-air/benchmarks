@@ -39,4 +39,4 @@ rust-%:
 python-%:
 	cd ./server-web && $(MAKE) $@
 
-test: rust-test-all toml-test python-test md-test-links editorconfig-test
+test: rust-test-all toml-test python-test cspell-test md-test-links editorconfig-test

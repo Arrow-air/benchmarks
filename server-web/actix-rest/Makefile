@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 
-SOURCE_PATH = "$(PWD)/../"
+SOURCE_PATH = $(PWD)/../
 
 help: .help-base .help-rust .help-docker
 
